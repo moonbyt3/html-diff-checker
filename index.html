@@ -113,26 +113,7 @@
 						hideLoader(); // Hide the loader
 						console.error("Error:", error);
 					});
-
-				// Set up EventSource to receive progress updates
-				const eventSource = new EventSource("/progress");
-				eventSource.onmessage = function (event) {
-					const progress = event.data;
-					updateProgressBar(progress);
-
-					if (progress === "Done!") {
-						eventSource.close(); // Close the connection when done
-					}
-				};
 			});
-
-			// Function to update progress bar
-			function updateProgressBar(progress) {
-				const progressBar = document.getElementById("progressBar");
-				const progressText = document.getElementById("progressText");
-				progressBar.style.width = progress + "%";
-				progressText.textContent = `${progress}%`;
-			}
 
 			// Show loader with progress bar
 			function showLoader() {
