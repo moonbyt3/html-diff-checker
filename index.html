@@ -10,9 +10,7 @@
 		<main>
 			<section class="hero">
 				<div class="container">
-					<h1 class="hero__title">
-						HTML Difference Checker
-					</h1>
+					<h1 class="hero__title">HTML Difference Checker</h1>
 				</div>
 			</section>
 		</main>
@@ -51,29 +49,26 @@
 							Enter URL and add exported CSV file from <b>Google Console</b> ->
 							<b>Links</b> -> <b>Top linking sites</b>
 						</p>
-                        <p>CSV file needs to have "Site" as the first field.</p>
+						<p>CSV file needs to have "Site" as the first field.</p>
 					</div>
 
-					<div id="loader" style="display: none">
-						<div
-							style="
-								width: 100%;
-								background-color: #f0f0f0;
-								border-radius: 4px;
-								margin-top: 20px;
-							"
-						>
-							<div
-								id="progressBar"
-								style="
-									height: 20px;
-									background-color: #007bff;
-									width: 0%;
-									border-radius: 4px;
-								"
-							></div>
-						</div>
-						<p id="progressText">0%</p>
+					<div class="loader" id="loader" style="display: none">
+						<svg xmlns="http://www.w3.org/2000/svg" width="120" height="30" viewBox="0 0 120 30" fill="#fff">
+							<circle cx="15" cy="15" r="15">
+								<animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"/>
+								<animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"/>
+							</circle>
+							<circle cx="60" cy="15" r="9" fill-opacity="0.3">
+								<animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"/>
+								<animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"/>
+							</circle>
+							<circle cx="105" cy="15" r="15">
+								<animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"/>
+								<animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"/>
+							</circle>
+						</svg>
+
+						<span>Larger files may take more time to process...</span>
 					</div>
 
 					<!-- Table to show results -->
@@ -166,14 +161,13 @@
 				if (sortedSimilarBacklinks.length > 0) {
 					sortedSimilarBacklinks.reverse();
 					sortedSimilarBacklinks.forEach((result) => {
-                        if (result.url && !/^https?:\/\//i.test(result.url)) {
-                            if (result.url.startsWith('www.')) {
-                                result.url = 'https://' + result.url;
-                            } else {
-                                result.url = 'https://' + result.url;
-                            }
-                        }
-
+						if (result.url && !/^https?:\/\//i.test(result.url)) {
+							if (result.url.startsWith("www.")) {
+								result.url = "https://" + result.url;
+							} else {
+								result.url = "https://" + result.url;
+							}
+						}
 
 						const row = document.createElement("tr");
 						row.innerHTML = `

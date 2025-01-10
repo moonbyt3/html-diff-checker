@@ -101,9 +101,6 @@ th {
 #loader {
     display: none;
 }
-progress {
-    width: 100%;
-}
 
 .error {
     color: rgb(214, 0, 0);
@@ -169,4 +166,25 @@ progress {
 
 .table tbody tr td:nth-child(2) {
     width: 20%;
+}
+
+.loader {
+    background: #3295ff;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.loader svg {
+    display: block;
+    width: 64px;
+    margin: 0 auto;
+}
+
+.loader span {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #fff;
 }
