@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Backlink Processor</title>
+		<link rel="stylesheet" href="/assets/style.css" />
+	</head>
+	<body>
+		<main>
+			<section class="hero">
+				<div class="container">
+					<h1 class="hero__title">
+						HTML Difference Checker
+					</h1>
+				</div>
+			</section>
+		</main>
+		<section class="form">
+			<div class="container">
+				<div class="form-wrapper">
+					<form
+						id="backlinkForm"
+						action="/process"
+						method="POST"
+						enctype="multipart/form-data"
+					>
+						<label for="website">Website URL:</label>
+						<input
+							type="text"
+							id="website"
+							name="website"
+							placeholder="https://example.com"
+							required
+						/>
+
+						<label for="file">Upload CSV File:</label>
+						<input type="file" id="file" name="file" accept=".csv" required />
+
+						<button class="form__submit-btn" type="submit">Submit</button>
+					</form>
+				</div>
+			</div>
+		</section>
+		<section class="results">
+			<div class="container">
+				<div class="output">
+					<h2 class="results__title">Backlink Comparison Results</h2>
+					<div class="results__text">
+						<p>
+							Enter URL and add exported CSV file from <b>Google Console</b> ->
+							<b>Links</b> -> <b>Top linking sites</b>
+						</p>
+                        <p>CSV file needs to have "Site" as the first field.</p>
+					</div>
+
+					<div id="loader" style="display: none">
+						<div
+							style="
+								width: 100%;
+								background-color: #f0f0f0;
+								border-radius: 4px;
+								margin-top: 20px;
+							"
+						>
+							<div
+								id="progressBar"
+								style="
+									height: 20px;
+									background-color: #007bff;
+									width: 0%;
+									border-radius: 4px;
+								"
+							></div>
+						</div>
+						<p id="progressText">0%</p>
+					</div>
+
+					<!-- Table to show results -->
+					<table class="table" id="backlinkTable" style="display: none">
+						<thead>
+							<tr>
+								<th>URL</th>
+								<th>Similarity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Table rows will be added dynamically here -->
+						</tbody>
+					</table>
+					<div id="errorMessage" style="color: red; display: none"></div>
+				</div>
+			</div>
+		</section>
+		<script>
+			// When the form is submitted
+			const form = document.getElementById("backlinkForm");
+			form.addEventListener("submit", (event) => {
+				event.preventDefault();
+
+				// Show loader while processing
+				showLoader();
+
+				// Create a new FormData object for the POST request
+				const formData = new FormData(form);
+
+				// Use Fetch to submit the form (file upload + website URL)
+				fetch("/process", {
+					method: "POST",
+					body: formData,
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						hideLoader(); // Hide the loader
+						showResults(data); // Show results in table
+					})
+					.catch((error) => {
+						hideLoader(); // Hide the loader
+						console.error("Error:", error);
+					});
+
+				// Set up EventSource to receive progress updates
+				const eventSource = new EventSource("/progress");
+				eventSource.onmessage = function (event) {
+					const progress = event.data;
+					updateProgressBar(progress);
+
+					if (progress === "Done!") {
+						eventSource.close(); // Close the connection when done
+					}
+				};
+			});
+
+			// Function to update progress bar
+			function updateProgressBar(progress) {
+				const progressBar = document.getElementById("progressBar");
+				const progressText = document.getElementById("progressText");
+				progressBar.style.width = progress + "%";
+				progressText.textContent = `${progress}%`;
+			}
+
+			// Show loader with progress bar
+			function showLoader() {
+				document.getElementById("loader").style.display = "block";
+			}
+
+			// Hide loader
+			function hideLoader() {
+				document.getElementById("loader").style.display = "none";
+			}
+
+			// Show results in table
+			function showResults(data) {
+				const tableBody = document
+					.getElementById("backlinkTable")
+					.getElementsByTagName("tbody")[0];
+				tableBody.innerHTML = ""; // Clear previous results
+
+				// Sort the results by similarity in ascending order
+				const sortedSimilarBacklinks = data.similarBacklinks.sort((a, b) => {
+					const similarityA = parseFloat(a.similarity);
+					const similarityB = parseFloat(b.similarity);
+					return similarityA - similarityB;
+				});
+
+				if (sortedSimilarBacklinks.length > 0) {
+					sortedSimilarBacklinks.reverse();
+					sortedSimilarBacklinks.forEach((result) => {
+                        if (result.url && !/^https?:\/\//i.test(result.url)) {
+                            if (result.url.startsWith('www.')) {
+                                result.url = 'https://' + result.url;
+                            } else {
+                                result.url = 'https://' + result.url;
+                            }
+                        }
+
+
+						const row = document.createElement("tr");
+						row.innerHTML = `
+                            <td><a href="${result.url}" target="_blank">${result.url}</a></td>
+                            <td>${result.similarity}</td>
+                        `;
+						tableBody.appendChild(row);
+					});
+				} else {
+					const row = tableBody.insertRow();
+					const cell = row.insertCell(0);
+					cell.colSpan = 2;
+					cell.textContent = "No similar backlinks found.";
+				}
+
+				if (data.failedBacklinks.length > 0) {
+					data.failedBacklinks.forEach((result) => {
+						const row = tableBody.insertRow();
+						const urlCell = row.insertCell(0);
+						const errorCell = row.insertCell(1);
+						urlCell.textContent = result.url;
+						errorCell.textContent = result.error;
+						errorCell.classList.add("error");
+					});
+				}
+
+				document.querySelector(".table").style.display = "table";
+			}
+		</script>
+	</body>
+</html>

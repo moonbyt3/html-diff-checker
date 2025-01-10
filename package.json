@@ -1,0 +1,21 @@
+{
+  "name": "htmldiffchecker",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
+    "csv-parser": "^3.1.0",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "p-limit": "^6.2.0",
+    "string-similarity": "^4.0.4"
+  }
+}

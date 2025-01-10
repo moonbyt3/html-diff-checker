@@ -1,0 +1,172 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+}
+
+b, strong {
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+input[type="text"],
+input[type="file"] {
+    padding: 10px;
+    font-size: 16px;
+}
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.output {
+    margin-top: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+#loader {
+    display: none;
+}
+progress {
+    width: 100%;
+}
+
+.error {
+    color: rgb(214, 0, 0);
+}
+
+.container {
+    max-width: 920px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.hero {
+
+}
+
+.hero__title {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.form-wrapper {
+    border: 1px solid #f2f2f2;
+    border-radius: 6px;
+    padding: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form input {
+    border-radius: 4px;
+    border: 1px solid #dbdbdb;
+}
+
+.form label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.form__submit-btn {
+
+}
+
+.results__title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.results__text {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.table {
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.table tbody tr td:nth-child(2) {
+    width: 20%;
+}
